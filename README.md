@@ -38,10 +38,11 @@ sudo apt-get install chromium-browser" without the quotations [(How to SSH?)](ht
 Step 6. Unclutter: whilst SSH'd run "sudo apt-get install unclutter" in the terminal.
 
 Step 7. Crontab: whilst SSH'd into your Pi's terminal type "sudo crontab -e" if prompted to select an editor type "1" then press enter, once in nano/crontab add
-"@reboot chromium-brower --start-fullscreen http://YOURSERVERIP:PORT/PID.html &
-@reboot unclutter -idle 0 &" 
-to the bottom of the file (replace YOURSERVERIP with your server ip and PORT with the port your website is on).
+"@reboot unclutter -idle 0 &" 
+to the bottom of the file.
 
-Step 8. Restart your Pi (or similar device), once the pi boots after some time you should see the PID.html page.
+Step 8. Auto-Start: In your Terminal (in ssh) type "sudo nano /etc/xdg/lxsession/LXDE-pi/autostart" and then add "@xset s off @xset -dpms @xset s noblank @chromium-browser --kiosk http://YOURSERVERIP:PORT/PID.html/ # load chromium after boot and open the website in full screen mode" (replace YOURSERVERIP with your server IP and PORT with the port your website is on) once done press CTRL-X and then Y and then press enter (this will save the file in nano).
+
+Step 9. Restart your Pi (or similar device), once the pi boots after some time you should see the PID.html page.
 
 If you've made it here and done all the steps you should be finished and now have your very own real life Mini Minecraft Transit Railway PID.
