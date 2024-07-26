@@ -1,5 +1,5 @@
 # MTR-MC-PID
-A Mini Minecraft Transit Railway PID in Real Life!
+A Mini Minecraft Transit Railway PID in Real Life! \
 GIF (or image) of PID here.
 # Pre-Requisites
 ## Hardware
