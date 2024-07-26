@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Arrivals</title>
+    <style>
+        @font-face {
+            font-family: 'TFL';
+            src: url('London Underground Regular.ttf') format('truetype');
+        }
+        body {
+            color: orange;
+            background: black;
+            font-family: 'TFL';
+            cursor: none; /* Hide cursor initially */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            font-family: 'TFL';
+            font-size: 10px;
+        }
+        th {
+            background-color: #000;
+            color: orange;
+        }
+        .hidden {
+            display: none;
+        }
+        #train-approaching-message {
+            margin-top: 20px;
+            color: orange;
+            text-align: center;
+            font-size: 10px;
+        }
+        #clock {
+            position: fixed;
+            left: 50%;
+            bottom: 0px;
+            transform: translateX(-50%);
+            font-size: 10px;
+            text-align: center;
+        }
+        #stationtitle {
+            font-size: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="stationtitle"></div>
+    <select id="stationSelect">
+        <option value="http://YOURIP:8888/arrivals?worldIndex=0&stationId=5692336672790323387">Station 1</option>
+  <option value="http://YOURIP:8888/arrivals?worldIndex=0&stationId=5692336672790323387">Station 2</option>
+    </select>
+    <table id="arrivalsTable">
+        <thead>
+            <tr>
+                <!-- Header row, if needed -->
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="train-approaching-message"></div>
+    <div id="clock"></div>
+    <script>
+        let retryCount = 0;
+        const maxRetries = 5;
+        let fetchingInProgress = false;
+        const trainApproachingMessage = document.getElementById('train-approaching-message');
+        let emptyTableInterval;  // Variable to hold the interval ID for checking empty table condition
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const stationSelect = document.getElementById('stationSelect');
+            const arrivalsTable = document.getElementById('arrivalsTable').getElementsByTagName('tbody')[0];
+            const clock = document.getElementById('clock');
+            let apiUrl = stationSelect.value;
+
+            // Function to clear the table and reset the retry count
+            function clearTable() {
+                arrivalsTable.innerHTML = '';
+                retryCount = 0;  // Reset retry count when switching stations
+            }
+
+            stationSelect.addEventListener('change', function() {
+                apiUrl = stationSelect.value;
+                clearTable();  // Clear table when a new station is selected
+                fetchData();  // Fetch data for the new station
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!stationSelect.contains(event.target) && !clock.contains(event.target)) {
+                    stationSelect.classList.toggle('hidden');
+                    document.body.style.cursor = 'none';  // Hide cursor if clicked outside station select box and clock
+                }
+            });
+
+            function fetchData() {
+                if (fetchingInProgress) return;
+
+                fetchingInProgress = true;
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const currentTimes = new Set(data.map(arrival => arrival.arrival));
+
+                        Array.from(arrivalsTable.rows).forEach(row => {
+                            const arrivalTime = row.dataset.arrivalTime;
+                            if (!currentTimes.has(arrivalTime)) {
+                                row.remove();
+                            }
+                        });
+
+                        data.forEach(arrival => {
+                            let existingRow = arrivalsTable.querySelector(`tr[data-arrival-time="${arrival.arrival}"]`);
+
+                            if (!existingRow) {
+                                existingRow = arrivalsTable.insertRow();
+                                existingRow.dataset.arrivalTime = arrival.arrival;
+                                const destinationCell = existingRow.insertCell(0);
+                                destinationCell.innerText = `${arrival.platform} ${arrival.destination}`;
+                                const timeCell = existingRow.insertCell(1);
+                                timeCell.style.textAlign = 'right'; // Align the text to the right
+
+                                // Update the countdown every second
+                                let intervalId = setInterval(() => {
+                                    const now = new Date();
+                                    const arrivalTime = new Date(arrival.arrival);
+                                    const distance = arrivalTime - now;
+
+                                    if (distance > 0) {
+                                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                                        timeCell.innerText = `${minutes}m ${seconds}s`;
+                                    } else {
+                                        clearInterval(intervalId);
+                                        timeCell.innerText = "due";
+                                        trainApproachingMessage.innerHTML = "<center>*** STAND BACK - TRAIN APPROACHING ***</center>";
+
+                                        setTimeout(() => {
+                                            trainApproachingMessage.innerText = '';
+                                            timeCell.innerText = "arrived";
+                                            // Check after 5 seconds if the train is still in the API
+                                            setTimeout(() => {
+                                                fetch(apiUrl)
+                                                    .then(response => response.json())
+                                                    .then(newData => {
+                                                        const updatedCurrentTimes = new Set(newData.map(arrival => arrival.arrival));
+                                                        if (!updatedCurrentTimes.has(arrival.arrival)) {
+                                                            existingRow.remove();
+                                                        }
+                                                        // If no trains left, start fetching data again
+                                                        if (arrivalsTable.rows.length === 0) {
+                                                            startFetchingWhenEmpty();
+                                                        }
+                                                    });
+                                            }, 5000); // Wait for 5 seconds before checking
+                                        }, 5000); // Change status to "arrived" after 5 seconds
+                                    }
+
+                                    // Check for "due" trains to control the warning message
+                                    checkForDue();
+
+                                }, 1000);
+                            }
+                        });
+
+                        fetchingInProgress = false;
+                        checkForDue();
+
+                        // Clear the interval if the table has data
+                        if (arrivalsTable.rows.length > 0 && emptyTableInterval) {
+                            clearInterval(emptyTableInterval);
+                            emptyTableInterval = null;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching train data:', error);
+                        retryCount++;
+
+                        if (retryCount < maxRetries) {
+                            setTimeout(fetchData, 1000); // Retry fetching the data after 1 second if there's an error
+                        } else {
+                            console.error('Failed to fetch train data after', maxRetries, 'attempts');
+                        }
+
+                        fetchingInProgress = false;
+                    });
+            }
+
+            // Fetch data initially
+            fetchData();
+
+            function checkForDue() {
+                const duePresent = Array.prototype.some.call(arrivalsTable.rows, row => {
+                    return Array.prototype.some.call(row.cells, cell => {
+                        return cell.innerText.includes('due');
+                    });
+                });
+
+                if (duePresent) {
+                    trainApproachingMessage.innerHTML = "<center>*** STAND BACK - TRAIN APPROACHING ***</center>";
+                } else {
+                    trainApproachingMessage.innerText = '';
+                }
+            }
+
+            function updateClock() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                clock.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // Function to start fetching data repeatedly when the table is empty
+            function startFetchingWhenEmpty() {
+                emptyTableInterval = setInterval(() => {
+                    if (arrivalsTable.rows.length === 0) {
+                        fetchData();  // Fetch data if the table is empty
+                    }
+                }, 1000);  // Check every 1 second if the table is empty
+            }
+        });
+
+        // Function to update the text block with the selected station's name
+        function updatestationtitle() {
+            var selectElement = document.getElementById('stationSelect');
+            var selectedText = selectElement.options[selectElement.selectedIndex].text;
+            document.getElementById('stationtitle').innerText = selectedText;
+        }
+
+        // Add an event listener to update the text block when the selection changes
+        document.getElementById('stationSelect').addEventListener('change', updatestationtitle);
+
+        // Initial call to set the text block with the default selected value
+        updatestationtitle();
+
+        document.addEventListener('click', function(event) {
+            if (!document.getElementById('stationSelect').contains(event.target) && !document.getElementById('clock').contains(event.target)) {
+                document.body.style.cursor = 'none';  // Hide cursor if clicked outside the station selection box and clock
+            } else {
+                document.body.style.cursor = 'auto';  // Show cursor if clicked inside the station selection box or clock
+            }
+        });
+    </script>
+</body>
+</html>
