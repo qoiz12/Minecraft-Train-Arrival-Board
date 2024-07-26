@@ -1,4 +1,4 @@
-# MTR-MC-PID
+# Minecraft Train Arrival Board
 A Mini Minecraft Transit Railway PID in Real Life! 
 
 ![GIF of the Finished Project in Action!](https://your-file-is-ready-to-download.zip/minecraft/the.gif)
