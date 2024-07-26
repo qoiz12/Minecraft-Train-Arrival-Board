@@ -31,8 +31,8 @@ Step 3. Insert your SD Card with the flashed OS into your Pi and then plug in th
 
 Step 4. Set up Linux/Raspbian as normal (make sure you've got SSH enabled and know your username and password, by default it may be username: pi password: raspberry).
 
-Step 5. SSHing into your Pi, Use an SSH app like Putty (Windows) or ConnectBot (Android). Once in type or paste: "sudo apt-get update
-sudo apt-get install chromium-browser" without the quotations.
+Step 5. SSHing into your Pi: Use an SSH app like Putty (Windows) or ConnectBot (Android). Once in type or paste: "sudo apt-get update
+sudo apt-get install chromium-browser" without the quotations [(How to SSH?)](https://www.google.com/search?q=how+to+ssh+into+a+raspberry+pi&sca_esv=247eb50602a83f19&ei=Db6jZuPbLLLBhbIPx-7gqAg&ved=0ahUKEwijlvSVgMWHAxWyYEEAHUc3GIUQ4dUDCBA&uact=5&oq=how+to+ssh+into+a+raspberry+pi&gs_lp=Egxnd3Mtd2l6LXNlcnAiHmhvdyB0byBzc2ggaW50byBhIHJhc3BiZXJyeSBwaTILEAAYgAQYkQIYigUyCxAAGIAEGJECGIoFMgUQABiABDILEAAYgAQYkQIYigUyBBAAGB4yCxAAGIAEGIYDGIoFMggQABiABBiiBDIIEAAYgAQYogQyCBAAGIAEGKIESJElUPwDWNkbcAJ4ApABAJgBmAGgAeICqgEDMy4xuAEDyAEA-AEBmAIGoAL1AcICBBAAGEfCAgcQABiABBgNwgIGEAAYBxgemAMAiAYBkAYIkgcBNqAHsCQ&sclient=gws-wiz-serp).
 
 Step 6. Unclutter: whilst SSH'd run "sudo apt-get install unclutter" in the terminal.
 
