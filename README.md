@@ -11,8 +11,8 @@ A Mini Minecraft Transit Railway PID in Real Life!
 - Power Cable (for RPI or similar device)
 - GPIO Pins (if your Screen Needs them)
 ## Software
-- Minecraft Server with Web Software (i.e. Nginx, Apache, Jetty etc.)
-- Minecraft Transit Railway Mod
+- Minecraft Server with Web Software (i.e. Nginx, Apache, Jetty etc)
+- Minecraft Transit Railway Mod (on the Minecraft server)
 - Raspbian (or another linux distro)
 - Display Drivers (if required, varies by what screen you have or bought)
 ## Notice
