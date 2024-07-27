@@ -16,7 +16,7 @@ A Mini Minecraft Transit Railway PID in Real Life!
 - Raspbian (or another linux distro)
 - Display Drivers (if required, varies by what screen you have or bought)
 ## Notice
-I am not responsibile for anything that happens to you or your hardware/devices.
+I am not responsible for anything that happens to you or your hardware/devices.
 # Guide
 ## Minecraft Server
 Step 1. Download the PID.html file and the London Underground Regular.ttf from the Repo.
