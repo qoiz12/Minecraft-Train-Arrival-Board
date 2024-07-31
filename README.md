@@ -18,12 +18,18 @@ A Mini Minecraft Transit Railway PID in Real Life!
 ## Notice
 I am not responsible for anything that happens to you or your hardware/devices.
 # Guide
+## Finding your station(s) ID(s)
+Step 1. Goto YOURIP:8888/index.html (replacing YOURIP with your servers ip). 
+
+Step 2. In the search bar type the name of a station in your server then click on it (if it shows up underneath the search bar) then press F12 (to open dev tools) then goto the network tab and then right click on the piece of data that says something like "arrivals?worldIndex" then hover over copy then press "Copy URL".
 ## Minecraft Server
 Step 1. Download the PID.html file and the London Underground Regular.ttf from the Repo.
 
-Step 2. Replace all mentions of YOURIP with Your Server's IP in the PID.html file, if you have SSL on your server replace http with https.
+Step 2. Replace all mentions of YOURIP with Your Server's IP in the PID.html file, if you have SSL on your server replace http with https, find your station(s) IDs and replace the STATIONID texts with the id of your stations.
 
 Step 3. Upload your modified PID.html file and the London Underground Regular.ttf to your server's website files using FTP (Click [this](https://www.google.com/search?q=how+to+ftp+into+a+minecraft+server&sca_esv=247eb50602a83f19&sxsrf=ADLYWIJR3kGoJjZTtqZKw94yG_KOqH1T_w%3A1722005115959&source=hp&ei=e7ajZpeQOMi7hbIPgNHZ8QU&iflsig=AL9hbdgAAAAAZqPEi4LPnsZZ_mu6iU6azWEtswprxL18&oq=How+t&gs_lp=Egdnd3Mtd2l6IgVIb3cgdEgAUABYAHAAeACQAQCYAQCgAQCqAQC4AQzIAQCYAgCgAgCYAwCSBwCgBwA&sclient=gws-wiz&ved=0ahUKEwjXufH5-MSHAxXIXUEAHYBoNl4Q4dUDCB8) if you don't know how to FTP into your server) or if you have dynmap installed drop it into the web folder inside of the dynmap folder.
+
+Step 4. Replace the "http://YOURIP:8888/arrivals?worldIndex=0&stationId=STATIONID" in the "<option value="http://YOURIP:8888/arrivals?worldIndex=0&stationId=STATIONID">Station 1</option>" with the URL you copied from the network tab (see finding your station(s) ID(s) above), Replace Station 1 with the name of your station.
 ## Raspberry Pi (or other device)
 Step 1. Flashing Raspbian (or another Linux distro) to your SD Card, I suggest using the Raspberry Pi Imager or Balena Etcher. 
 
