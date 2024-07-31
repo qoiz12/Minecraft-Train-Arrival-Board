@@ -21,7 +21,7 @@ I am not responsible for anything that happens to you or your hardware/devices.
 ## Finding your station(s) ID(s)
 Step 1. Goto YOURIP:8888/index.html (replacing YOURIP with your servers ip). 
 
-Step 2. In the search bar type the name of a station in your server then click on it (if it shows up underneath the search bar) then press F12 (to open dev tools) then goto the network tab and then right click on the piece of data that says something like "arrivals?worldIndex" then hover over copy then press "Copy URL".
+Step 2. In the search bar type the name of a station in your server then click on it (if it shows up underneath the search bar) after press the F12 key (to open dev tools) then go to the network tab and right click on the piece of data that says something like "arrivals?worldIndex" then hover over copy then press "Copy URL" (if "arrivals?worldIndex" isn't there wait until a station/destination shows up at the bottom of the box that has the name of your station).
 ## Minecraft Server
 Step 1. Download the PID.html file and the London Underground Regular.ttf from the Repo.
 
