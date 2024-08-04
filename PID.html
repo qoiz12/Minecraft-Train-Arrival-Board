@@ -58,7 +58,7 @@
     <div id="stationtitle"></div>
     <select id="stationSelect" class="hidden">
         <option value="http://YOURIP:8888/arrivals?worldIndex=0&stationId=STATIONID">Station 1</option>
-  <option value="http://YOURIP:8888/arrivals?worldIndex=0&stationId=STATIONID">Station 2</option>
+        <option value="http://YOURIP:8888/arrivals?worldIndex=0&stationId=STATIONID">Station 2</option>
     </select>
     <table id="arrivalsTable">
         <thead>
@@ -75,8 +75,8 @@
         let retryCount = 0;
         const maxRetries = 5;
         let fetchingInProgress = false;
-        const trainApproachingMessage = document.getElementById('train-approaching-message');
         let emptyTableInterval;  // Variable to hold the interval ID for checking empty table condition
+        const trainApproachingMessage = document.getElementById('train-approaching-message');
 
         document.addEventListener('DOMContentLoaded', function() {
             const stationSelect = document.getElementById('stationSelect');
@@ -227,11 +227,13 @@
 
             // Function to start fetching data repeatedly when the table is empty
             function startFetchingWhenEmpty() {
-                emptyTableInterval = setInterval(() => {
-                    if (arrivalsTable.rows.length === 0) {
-                        fetchData();  // Fetch data if the table is empty
-                    }
-                }, 1000);  // Check every 1 second if the table is empty
+                if (!emptyTableInterval) {
+                    emptyTableInterval = setInterval(() => {
+                        if (arrivalsTable.rows.length === 0) {
+                            fetchData();  // Fetch data if the table is empty
+                        }
+                    }, 1000);  // Check every 1 second if the table is empty
+                }
             }
         });
 
