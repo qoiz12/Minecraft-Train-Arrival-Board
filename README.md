@@ -30,9 +30,9 @@ Step 3. Replace all mentions of YOURIP with Your Server's IP in the PID.html fil
 
 Step 4. Upload your modified PID.html file and the London Underground Regular.ttf to your server's website files using FTP (Click [this](https://www.google.com/search?q=how+to+ftp+into+a+minecraft+server&sca_esv=247eb50602a83f19&sxsrf=ADLYWIJR3kGoJjZTtqZKw94yG_KOqH1T_w%3A1722005115959&source=hp&ei=e7ajZpeQOMi7hbIPgNHZ8QU&iflsig=AL9hbdgAAAAAZqPEi4LPnsZZ_mu6iU6azWEtswprxL18&oq=How+t&gs_lp=Egdnd3Mtd2l6IgVIb3cgdEgAUABYAHAAeACQAQCYAQCgAQCqAQC4AQzIAQCYAgCgAgCYAwCSBwCgBwA&sclient=gws-wiz&ved=0ahUKEwjXufH5-MSHAxXIXUEAHYBoNl4Q4dUDCB8) if you don't know how to FTP into your server) or if you have dynmap installed drop it into the web folder inside of the dynmap folder.
 ## Raspberry Pi (or other device)
-Step 1. Flashing Raspbian (or another Linux distro) to your SD Card, I suggest using the Raspberry Pi Imager or Balena Etcher. 
+Step 1. Flashing Raspbian (or another Linux distro) to your SD Card, I suggest using the Raspberry Pi Imager or Balena Etcher. If your screen has its own Linux Distro or remix of Raspbian you may want to flash that to the SD Card Instead. 
 
-Step 2. Plug your screen into your Pi (or similar device), install any drivers that your display may need. If your screen has its own Linux Distro or remix of Raspbian you may want to flash that to the SD Card Instead. 
+Step 2. Plug your screen into your Pi (or similar device), install any drivers that your display may need.
 
 Step 3. Insert your SD Card with the flashed OS into your Pi and then plug in the power and power on the device. 
 
