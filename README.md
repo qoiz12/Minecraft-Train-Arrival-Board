@@ -9,7 +9,6 @@ A Mini Minecraft Transit Railway PID in Real Life!
 - SD Card (sufficent enough to store Raspbian) 
 - GPIO Pins (if your display is connected via the GPIO pins) 
 - Power Cable (for RPI or similar device)
-- GPIO Pins (if your Screen Needs them)
 ## Software
 - Minecraft Server with Web Software (i.e. Nginx, Apache, Jetty etc)
 - Minecraft Transit Railway Mod (on the Minecraft server)
